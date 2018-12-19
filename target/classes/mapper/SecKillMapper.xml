@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yss.mapper.SecKillDao">
+    <resultMap type="com.yss.domain.SecKillInfo" id="secKillInfo"><!-- type为返回列表元素的类全名或别名 -->
+        <result column="seckill_Id" property="seckillId" />
+        <result column="name" property="name" />
+        <result column="number" property="num" />
+        <result column="start_Time" property="startTime" />
+        <result column="end_Time" property="endTime" />
+        <result column="create_Time" property="createTime" />
+    </resultMap>
+
+    <update id="update" parameterType="secKillInfo" >
+        update seckill set number=#{number}
+        and create_time= now()
+        where seckill_id=#{seckillId}
+    </update>
+
+    <select id="selectOne" parameterType="java.lang.Integer" resultMap="secKillInfo">
+        select seckill_Id,name,number,start_Time,end_Time,create_Time
+        from seckill
+        where seckill_Id=#{seckillId}
+    </select>
+</mapper>
