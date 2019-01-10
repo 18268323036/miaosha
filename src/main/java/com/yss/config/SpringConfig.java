@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Import;
 //扫描需要被容器管理的对象
 @ComponentScan(basePackages="com.yss")
 //@Import引入其他配置文件
-@Import(DataSourceConfig.class)
+@Import({DataSourceConfig.class,RedisConfig.class})
 public class SpringConfig {
 
 
