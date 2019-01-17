@@ -31,13 +31,10 @@ public class MqProducer implements RabbitTemplate.ConfirmCallback {
     public void publishMsg(String exchange, String routingKey, Object msg) {
         CorrelationData correlationId = new CorrelationData(UUID.randomUUID().toString());
         rabbitTemplate.setConfirmCallback(this);
+        
         rabbitTemplate.convertAndSend(exchange, routingKey, msg, correlationId);
     }
 
-    public Message receiveMeg(String queueName){
-        Message msg = rabbitTemplate.receive(queueName);
-        return msg;
-    }
 
     public void publishMsg(String topic, String message) {
         this.rabbitTemplate.convertAndSend(topic, message);

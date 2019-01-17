@@ -5,6 +5,8 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.yss.config.RabbitConfig;
 import com.yss.config.RedisConfig;
+import com.yss.domain.PersonInfo;
+import com.yss.mq.MqConsumer;
 import com.yss.mq.MqProducer;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +16,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.concurrent.TimeoutException;
 
 /**
@@ -26,18 +29,23 @@ public class MQTest {
 
     @Autowired
     private MqProducer mqProducer;
+    @Autowired
+    private MqConsumer mqConsumer;
 
     @Test
     public void sendMessage(){
-        String msg = "这是我的第一条消息";
-        mqProducer.publishMsg("xxxExchange","666666",msg);
+        String msg = "xxxxxxxxxxaaaaaa";
+        PersonInfo personInfo = new PersonInfo();
+        personInfo.setName("张翔耀");
+        personInfo.setAge("13");
+        personInfo.setSex("fale");
+        mqProducer.publishMsg("amq.direct","directXXX",personInfo);
     }
 
 
     @Test
-    public void receiveMessage(){
-        Message msg = mqProducer.receiveMeg("zxy");
-        System.out.println(msg);
+    public void receiveMessage() {
+        mqConsumer.onMessage();
     }
 
 

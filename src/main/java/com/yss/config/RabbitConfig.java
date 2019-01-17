@@ -1,14 +1,22 @@
 package com.yss.config;
 
 
+import com.yss.mq.MqConsumer;
 import com.yss.mq.MqProducer;
 import org.springframework.amqp.core.AmqpAdmin;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
+import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
+
 
 /**
  * @auther zhangxy
@@ -28,34 +36,53 @@ public class RabbitConfig {
         factory.setChannelCacheSize(50);
         factory.setPublisherConfirms(true);
         factory.setVirtualHost("/");
-//        factory.setCacheMode(CachingConnectionFactory.CacheMode.CONNECTION);
         return factory;
     }
 
-
-//    @Bean("mqConnection")
-//    public Connection getConnection(){
-//        return connectionFactory().createConnection();
-//    }
-
     @Bean
     public AmqpAdmin amqpAdmin() {
-        return new RabbitAdmin(connectionFactory());
+        RabbitAdmin rabbitAdmin = new RabbitAdmin(connectionFactory());
+        rabbitAdmin.declareBinding(BindingBuilder.bind(new Queue("myqueue",true))
+                                                 .to(new DirectExchange("amq.direct",true,false))
+                                                 .with("directXXX"));
+//        rabbitAdmin.declareExchange(new DirectExchange("amq.direct",true,false));
+//        rabbitAdmin.declareQueue(new Queue("myqueue"));
+        return rabbitAdmin;
     }
 
     @Bean("rabbitTemplate")
     public RabbitTemplate rabbitTemplate() {
-        return new RabbitTemplate(connectionFactory());
+        RabbitTemplate template = new RabbitTemplate(connectionFactory());
+        template.setMessageConverter(new Jackson2JsonMessageConverter());
+        return template;
     }
 
     @Bean
-    public MqProducer getMqProducer(){
+    public MqProducer getMqProducer() {
         return new MqProducer();
     }
 
+    @Bean
+    public MqConsumer getMqConsumer() {
+        return new MqConsumer();
+    }
+
+
 //    @Bean
-//    public Queue myQueue() {
-//        return new Queue("myqueue");
+//    public SimpleMessageListenerContainer messageListenerContainer(ConnectionFactory connectionFactory){
+//        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+//        container.setConnectionFactory(connectionFactory);
+//        container.setQueueNames("myqueue");
+//        MessageListenerAdapter adapter = new MessageListenerAdapter();
+//        //指定消息转换器
+//        adapter.setMessageConverter(new Jackson2JsonMessageConverter());
+//        //设置处理器的消费消息的默认方法
+//        adapter.setDefaultListenerMethod("onMessage");
+//        container.setMessageListener(adapter);
+//        return container;
 //    }
+
+
+
 
 }
