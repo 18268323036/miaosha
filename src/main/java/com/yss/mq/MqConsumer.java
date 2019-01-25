@@ -24,8 +24,8 @@ public class MqConsumer {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    @RabbitHandler
-    @RabbitListener(queues = "myqueue")
+//    @RabbitHandler
+//    @RabbitListener(queues = "myqueue")
     public void onMessage() {
         Message message = rabbitTemplate.receive("myqueue");
         PersonInfo personInfo = null;
