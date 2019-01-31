@@ -115,7 +115,16 @@
         <version>4.12</version>
         <scope>compile</scope>
     </dependency>
-
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>3.1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.9.4</version>
+    </dependency>
   </dependencies>
 
 
@@ -151,6 +160,18 @@
         <plugin>
           <artifactId>maven-deploy-plugin</artifactId>
           <version>2.8.2</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>2.6</version>
+          <configuration>
+            <!-- jsp目录 -->
+            <warSourceDirectory>src/main/resources/templates</warSourceDirectory>
+            <warName>spike</warName>
+            <!-- 取消xml配置：web.xml -->
+            <failOnMissingWebXml>false</failOnMissingWebXml>
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>

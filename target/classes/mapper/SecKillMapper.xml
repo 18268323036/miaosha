@@ -11,13 +11,13 @@
         <result column="create_Time" property="createTime" />
     </resultMap>
 
-    <update id="update" parameterType="secKillInfo" >
-        update seckill set number=#{number}
+    <update id="update" parameterType="com.yss.domain.SecKillInfo" >
+        update seckill set number=#{num}
         and create_time= now()
         where seckill_id=#{seckillId}
     </update>
 
-    <select id="selectOne" parameterType="java.lang.Integer" resultMap="secKillInfo">
+    <select id="selectOne" parameterType="java.lang.Long" resultMap="secKillInfo">
         select seckill_Id,name,number,start_Time,end_Time,create_Time
         from seckill
         where seckill_Id=#{seckillId}

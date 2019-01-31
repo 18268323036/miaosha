@@ -1,20 +1,25 @@
 package com.yss.service.impl;
 
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
+import com.yss.domain.SecKillInfo;
+import com.yss.mapper.SecKillDao;
 import com.yss.service.SecKillService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
-import java.util.concurrent.TimeoutException;
 
 @Service
 public class SecKillServiceImpl implements SecKillService {
 
+    @Autowired
+    private SecKillDao secKillDao;
+
     @Override
-    public int update() {
-        return 0;
+    public int update(SecKillInfo secKillInfo) {
+        return secKillDao.update(secKillInfo);
+    }
+
+    @Override
+    public SecKillInfo selectOne(Long secKillId) {
+        return secKillDao.selectOne(secKillId);
     }
 
 

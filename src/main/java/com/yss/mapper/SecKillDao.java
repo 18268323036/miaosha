@@ -6,9 +6,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SecKillDao {
 
-    int update();
+    int update(SecKillInfo secKillInfo);
 
-    SecKillInfo selectOne(int secKillId);
+    SecKillInfo selectOne(Long secKillId);
 
 
 }

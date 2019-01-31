@@ -9,9 +9,10 @@
         <result column="create_time" property="createTime" />
     </resultMap>
 
-    <insert id="add" parameterType="successKilledInfo">
-        insert into success_killed values
-        (#{user_phone},state,now())
+    <insert id="add" parameterType="com.yss.domain.SuccessKilledInfo" useGeneratedKeys="true">
+        insert into success_killed (user_phone,state,create_time)
+        values
+        (#{userPhone},#{state},now())
     </insert>
 
 </mapper>

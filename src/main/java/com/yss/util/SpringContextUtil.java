@@ -1,4 +1,4 @@
-package com.zallsteelriskapi.utils;
+package com.yss.util;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
