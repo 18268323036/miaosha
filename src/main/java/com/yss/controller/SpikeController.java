@@ -4,6 +4,7 @@ import com.yss.domain.SecKillInfo;
 import com.yss.domain.SuccessKilledInfo;
 import com.yss.service.SecKillService;
 import com.yss.service.SuccessKilledService;
+import com.yss.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,9 @@ public class SpikeController {
     @Autowired
     private SuccessKilledService successKilledService;
 
+    @Autowired
+    private RedisUtil redisUtil;
+
 
     @RequestMapping(value = "/do")
     @Transactional
@@ -31,10 +35,16 @@ public class SpikeController {
         if(secKillId==null){
             return null;
         }
-        SecKillInfo secKillInfo = secKillService.selectOne(secKillId);
+        SecKillInfo secKillInfo = null;
+        if(redisUtil.getCacheObject(String.valueOf(secKillId))==null){
+            secKillInfo = secKillService.selectOne(secKillId);
+        }else{
+            secKillInfo = (SecKillInfo)redisUtil.getCacheObject(String.valueOf(secKillId));
+        }
         if(secKillId!=null){
             secKillInfo.setNum(secKillInfo.getNum()-1);
             int updateCount = secKillService.update(secKillInfo);
+            redisUtil.setCacheObject(String.valueOf(secKillId),secKillInfo);
             if(updateCount>0){
                 SuccessKilledInfo killedInfo = new SuccessKilledInfo();
                 killedInfo.setUserPhone(userPhone);

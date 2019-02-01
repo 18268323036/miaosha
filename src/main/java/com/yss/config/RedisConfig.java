@@ -1,5 +1,6 @@
 package com.yss.config;
 
+import com.yss.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
@@ -91,6 +92,11 @@ public class RedisConfig {
 //        redisTemplate.setKeySerializer(getStringRedisSerializer());
 //        redisTemplate.setHashKeySerializer(getStringRedisSerializer());
         return redisTemplate;
+    }
+
+    @Bean
+    public RedisUtil getRedisUtil(){
+        return new RedisUtil();
     }
 
 
