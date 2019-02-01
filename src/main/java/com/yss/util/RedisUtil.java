@@ -19,11 +19,9 @@ import java.util.concurrent.TimeUnit;
 public class RedisUtil {
 
     @Autowired
-    @Qualifier("redisTemplate")
     public RedisTemplate<String, Object> redisTemplate;
 
     @Autowired
-    @Qualifier("redisTemplate")
     protected RedisTemplate<Serializable, Serializable> redisTemplateSerializable;
 
 

@@ -13,7 +13,6 @@
 
     <update id="update" parameterType="com.yss.domain.SecKillInfo" >
         update seckill set number=#{num}
-        and create_time= now()
         where seckill_id=#{seckillId}
     </update>
 
